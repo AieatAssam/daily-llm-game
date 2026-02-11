@@ -28,7 +28,8 @@
     // to hard-code the list of games based on the /games folder.
     const games = [
       // Example:
-      // { id: "2026-02-09", title: "Click the Meteor", blurb: "Click meteors before they hit the ground." }
+      // { id: "2026-02-09", title: "Click the Meteor", blurb: "Click meteors before they hit the ground." },
+      { id: "2026-02-11", title: "Color Match Challenge", blurb: "A simple color matching game where you need to identify the matching color pairs" }
     ];
 
     const container = document.getElementById("games");
@@ -39,7 +40,7 @@
         div.className = "card";
         div.innerHTML = `
           <div class="date">Day ${games.length - index} • ${g.id}</div>
-          <a href="games/${g.id}/index.html" target="_blank" rel="noopener noreferrer">${g.title}</a>
+          <a href="${g.id}/index.html" target="_blank" rel="noopener noreferrer">${g.title}</a>
           <p>${g.blurb}</p>
         `;
         container.appendChild(div);
