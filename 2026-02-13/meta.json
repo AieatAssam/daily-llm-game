@@ -1,9 +1,5 @@
 {
+  "id": "2026-02-13",
   "title": "Sliding Tile Puzzle",
-  "date": "2026-02-13",
-  "description": "A classic sliding tile puzzle game where you arrange numbered tiles in order by sliding them into the empty space.",
-  "difficulty": "medium",
-  "type": "puzzle",
-  "estimated_play_time": "5-15 minutes",
-  "tags": ["puzzle", "strategy", "sliding", "tiles", "brain-teaser"]
+  "blurb": "A classic sliding tile puzzle game where you arrange numbered tiles in order by sliding them into the empty space."
 }
