@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sliding Tile Puzzle</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Sliding Tile Puzzle</h1>
+        <p>Slide the tiles to arrange them in order from 1 to 15, with the empty space in the bottom-right corner.</p>
+        
+        <div id="game-board"></div>
+        <div class="controls">
+            <button id="shuffle-btn">Shuffle Tiles</button>
+            <button id="solve-btn">Solve Puzzle</button>
+        </div>
+        <div class="stats">
+            <p>Moves: <span id="move-count">0</span></p>
+        </div>
+    </div>
+    
+    <script src="game.js"></script>
+</body>
+</html>
