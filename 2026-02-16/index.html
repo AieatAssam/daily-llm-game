@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reaction Timer - Daily Game 2026-02-16</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Reaction Timer</h1>
+        
+        <div class="instructions">
+            <p>Wait for the screen to turn green, then click as fast as you can!</p>
+            <p>Test your reaction speed and try to beat your best time.</p>
+        </div>
+        
+        <div id="game-area" class="game-area waiting">
+            <div class="message" id="message">Click to Start</div>
+            <div class="result" id="result"></div>
+        </div>
+        
+        <div class="stats">
+            <div>Best: <span id="best-time">--</span>ms</div>
+            <div>Last: <span id="last-time">--</span>ms</div>
+        </div>
+        
+        <div class="controls">
+            <button class="restart-btn" onclick="resetGame()">Play Again</button>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Daily Game Challenge - February 16, 2026</p>
+    </footer>
+    
+    <script src="game.js"></script>
+</body>
+</html>

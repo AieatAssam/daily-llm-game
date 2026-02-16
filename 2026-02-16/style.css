@@ -1,0 +1,131 @@
+/* Reaction Timer Game Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.container {
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+}
+
+h1 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.instructions {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.game-area {
+  width: 100%;
+  max-width: 600px;
+  height: 400px;
+  margin: 20px auto;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  user-select: none;
+}
+
+.game-area.waiting {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.game-area.ready {
+  background: linear-gradient(135deg, #f5af19 0%, #f12711 100%);
+}
+
+.game-area.go {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+.game-area.too-early {
+  background: linear-gradient(135deg, #cb2d3e 0%, #ef473a 100%);
+}
+
+.game-area.finished {
+  background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);
+}
+
+.message {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.result {
+  font-size: 1.5em;
+  font-weight: bold;
+  min-height: 1.5em;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+  font-size: 1.2em;
+  font-weight: bold;
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 15px;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+}
+
+.controls {
+  margin-top: 20px;
+}
+
+.restart-btn {
+  padding: 12px 24px;
+  font-size: 1.1em;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.restart-btn:hover {
+  background: #45a049;
+}
+
+footer {
+  margin-top: 30px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+@media (max-width: 600px) {
+  .game-area {
+    height: 300px;
+  }
+  
+  .message {
+    font-size: 1.5em;
+  }
+  
+  h1 {
+    font-size: 2em;
+  }
+}
