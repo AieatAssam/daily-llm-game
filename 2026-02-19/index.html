@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bubble Popper - Daily Game 2026-02-19</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🫧 Bubble Popper</h1>
+        
+        <div class="instructions">
+            <p>Pop the bubbles before they float away! Click or tap each bubble to pop it.</p>
+            <p>Don't let any bubbles escape or the game ends!</p>
+        </div>
+        
+        <div class="stats-bar">
+            <div>Score: <span id="score">0</span></div>
+            <div>Missed: <span id="missed">0</span>/5</div>
+            <div>Level: <span id="level">1</span></div>
+        </div>
+        
+        <div id="game-area" class="game-area">
+            <div id="start-screen" class="screen">
+                <h2>Ready to Pop?</h2>
+                <p>Click bubbles before they float away!</p>
+                <button class="start-btn" onclick="startGame()">Start Game</button>
+            </div>
+            <div id="game-over-screen" class="screen hidden">
+                <h2>Game Over!</h2>
+                <p>Final Score: <span id="final-score">0</span></p>
+                <button class="start-btn" onclick="startGame()">Play Again</button>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="restart-btn" onclick="resetGame()">Reset</button>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Daily Game Challenge - February 19, 2026</p>
+    </footer>
+    
+    <script src="game.js"></script>
+</body>
+</html>
