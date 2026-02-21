@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balloon Pop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>🎈 Balloon Pop</h1>
+        <p class="instructions">Click the balloons before they float away! Don't let any escape!</p>
+        
+        <div class="stats">
+            <div class="stat">
+                <span class="stat-label">Score:</span>
+                <span id="score" class="stat-value">0</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Missed:</span>
+                <span id="missed" class="stat-value">0</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Time:</span>
+                <span id="timer" class="stat-value">60</span>
+            </div>
+        </div>
+        
+        <div id="game-area" class="game-area"></div>
+        
+        <button id="start-btn" class="start-btn">Start Game</button>
+        
+        <div id="game-over" class="game-over hidden">
+            <h2>Game Over!</h2>
+            <p>Final Score: <span id="final-score">0</span></p>
+            <p>Balloons Missed: <span id="final-missed">0</span></p>
+            <button id="restart-btn" class="start-btn">Play Again</button>
+        </div>
+    </div>
+    
+    <script src="game.js"></script>
+</body>
+</html>
