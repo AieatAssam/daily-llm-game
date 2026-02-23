@@ -1,162 +1,226 @@
-// Memory Match Game - Daily Game 2026-02-23
-// Find all matching pairs of emojis!
+// Catch the Stars - Daily Game 2026-02-23
+// Move basket to catch stars, avoid bombs!
 
-const emojis = ['🎮', '🎲', '🎯', '🎨', '🎭', '🎪', '🎬', '🎸'];
-let cards = [];
-let flippedCards = [];
-let matchedPairs = 0;
-let moves = 0;
-let timerInterval = null;
-let seconds = 0;
-let gameStarted = false;
-
-const gameBoard = document.getElementById('game-board');
-const movesDisplay = document.getElementById('moves');
-const pairsDisplay = document.getElementById('pairs');
-const timerDisplay = document.getElementById('timer');
+const gameArea = document.getElementById('game-area');
+const basket = document.getElementById('basket');
+const scoreDisplay = document.getElementById('score');
+const livesDisplay = document.getElementById('lives');
+const levelDisplay = document.getElementById('level');
+const startScreen = document.getElementById('start-screen');
+const gameOverScreen = document.getElementById('game-over-screen');
+const startBtn = document.getElementById('start-btn');
 const restartBtn = document.getElementById('restart-btn');
-const winMessage = document.getElementById('win-message');
-const winStats = document.getElementById('win-stats');
+const finalScoreDisplay = document.getElementById('final-score');
 
-// Initialize game
-function initGame() {
-    // Reset state
-    cards = [...emojis, ...emojis]; // Duplicate for pairs
-    flippedCards = [];
-    matchedPairs = 0;
-    moves = 0;
-    seconds = 0;
-    gameStarted = false;
-    
-    // Clear timer
-    if (timerInterval) {
-        clearInterval(timerInterval);
-        timerInterval = null;
-    }
-    
-    // Update displays
-    movesDisplay.textContent = '0';
-    pairsDisplay.textContent = '0/8';
-    timerDisplay.textContent = '0:00';
-    winMessage.classList.add('hidden');
-    
-    // Shuffle cards
-    shuffleArray(cards);
-    
-    // Create card elements
-    createCards();
+// Game state
+let score = 0;
+let lives = 3;
+let level = 1;
+let gameRunning = false;
+let spawnInterval = null;
+let items = [];
+let basketX = 50; // percentage
+
+// Item types
+const itemTypes = [
+    { emoji: '⭐', points: 10, type: 'star', probability: 0.6 },
+    { emoji: '🌟', points: 25, type: 'star', probability: 0.15 },
+    { emoji: '💫', points: 50, type: 'star', probability: 0.05 },
+    { emoji: '💣', points: 0, type: 'bomb', probability: 0.2 }
+];
+
+// Initialize basket position
+function updateBasketPosition() {
+    basket.style.left = `${basketX}%`;
+    basket.style.transform = 'translateX(-50%)';
 }
 
-// Fisher-Yates shuffle
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-}
+updateBasketPosition();
 
-// Create card elements
-function createCards() {
-    gameBoard.innerHTML = '';
-    
-    cards.forEach((emoji, index) => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.dataset.index = index;
-        card.dataset.emoji = emoji;
-        
-        card.innerHTML = `
-            <div class="card-inner">
-                <div class="card-front"></div>
-                <div class="card-back">${emoji}</div>
-            </div>
-        `;
-        
-        card.addEventListener('click', () => flipCard(card));
-        gameBoard.appendChild(card);
-    });
-}
+// Mouse/touch controls
+gameArea.addEventListener('mousemove', (e) => {
+    if (!gameRunning) return;
+    const rect = gameArea.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    basketX = Math.max(10, Math.min(90, x));
+    updateBasketPosition();
+});
 
-// Flip a card
-function flipCard(card) {
-    // Ignore if already flipped or matched
-    if (card.classList.contains('flipped') || card.classList.contains('matched')) {
-        return;
-    }
-    
-    // Ignore if two cards already flipped
-    if (flippedCards.length >= 2) {
-        return;
-    }
-    
-    // Start timer on first flip
-    if (!gameStarted) {
-        gameStarted = true;
-        startTimer();
-    }
-    
-    // Flip the card
-    card.classList.add('flipped');
-    flippedCards.push(card);
-    
-    // Check for match if two cards flipped
-    if (flippedCards.length === 2) {
-        moves++;
-        movesDisplay.textContent = moves;
-        checkMatch();
-    }
-}
+gameArea.addEventListener('touchmove', (e) => {
+    if (!gameRunning) return;
+    e.preventDefault();
+    const rect = gameArea.getBoundingClientRect();
+    const x = ((e.touches[0].clientX - rect.left) / rect.width) * 100;
+    basketX = Math.max(10, Math.min(90, x));
+    updateBasketPosition();
+}, { passive: false });
 
-// Check if two flipped cards match
-function checkMatch() {
-    const [card1, card2] = flippedCards;
+// Spawn a falling item
+function spawnItem() {
+    if (!gameRunning) return;
     
-    if (card1.dataset.emoji === card2.dataset.emoji) {
-        // Match found!
-        card1.classList.add('matched');
-        card2.classList.add('matched');
-        matchedPairs++;
-        pairsDisplay.textContent = `${matchedPairs}/8`;
-        flippedCards = [];
-        
-        // Check for win
-        if (matchedPairs === 8) {
-            endGame();
+    const rand = Math.random();
+    let cumulative = 0;
+    let selectedItem = itemTypes[0];
+    
+    for (const item of itemTypes) {
+        cumulative += item.probability;
+        if (rand <= cumulative) {
+            selectedItem = item;
+            break;
         }
-    } else {
-        // No match - flip back after delay
-        setTimeout(() => {
-            card1.classList.remove('flipped');
-            card2.classList.remove('flipped');
-            flippedCards = [];
-        }, 1000);
+    }
+    
+    const item = document.createElement('div');
+    item.className = 'falling-item';
+    item.textContent = selectedItem.emoji;
+    item.style.left = `${Math.random() * 80 + 10}%`;
+    item.style.top = '-50px';
+    
+    // Speed increases with level
+    const baseSpeed = 2 + (level * 0.5);
+    const speed = baseSpeed + Math.random() * 2;
+    item.style.animationDuration = `${speed}s`;
+    
+    item.dataset.type = selectedItem.type;
+    item.dataset.points = selectedItem.points;
+    
+    gameArea.appendChild(item);
+    items.push(item);
+    
+    // Check for collision
+    setTimeout(() => checkCollision(item), speed * 1000 - 100);
+    
+    // Remove item after animation
+    setTimeout(() => {
+        if (item.parentNode) {
+            item.remove();
+            items = items.filter(i => i !== item);
+        }
+    }, speed * 1000);
+}
+
+// Check collision with basket
+function checkCollision(item) {
+    if (!gameRunning || !item.parentNode) return;
+    
+    const itemRect = item.getBoundingClientRect();
+    const basketRect = basket.getBoundingClientRect();
+    
+    const overlap = !(itemRect.right < basketRect.left ||
+                     itemRect.left > basketRect.right ||
+                     itemRect.bottom < basketRect.top ||
+                     itemRect.top > basketRect.bottom);
+    
+    if (overlap) {
+        const type = item.dataset.type;
+        const points = parseInt(item.dataset.points);
+        
+        if (type === 'star') {
+            score += points;
+            scoreDisplay.textContent = score;
+            createSparkle(itemRect.left, itemRect.top, '✨');
+            
+            // Level up every 100 points
+            const newLevel = Math.floor(score / 100) + 1;
+            if (newLevel > level) {
+                level = newLevel;
+                levelDisplay.textContent = level;
+                increaseDifficulty();
+            }
+        } else if (type === 'bomb') {
+            lives--;
+            updateLivesDisplay();
+            createSparkle(itemRect.left, itemRect.top, '💥');
+            
+            if (lives <= 0) {
+                endGame();
+            }
+        }
+        
+        item.remove();
+        items = items.filter(i => i !== item);
     }
 }
 
-// Start timer
-function startTimer() {
-    timerInterval = setInterval(() => {
-        seconds++;
-        const mins = Math.floor(seconds / 60);
-        const secs = seconds % 60;
-        timerDisplay.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
-    }, 1000);
+// Create sparkle effect
+function createSparkle(x, y, emoji) {
+    const sparkle = document.createElement('div');
+    sparkle.className = 'sparkle';
+    sparkle.textContent = emoji;
+    sparkle.style.left = `${x}px`;
+    sparkle.style.top = `${y}px`;
+    gameArea.appendChild(sparkle);
+    
+    setTimeout(() => sparkle.remove(), 500);
+}
+
+// Update lives display
+function updateLivesDisplay() {
+    livesDisplay.textContent = '❤️'.repeat(lives);
+}
+
+// Increase difficulty
+function increaseDifficulty() {
+    if (spawnInterval) {
+        clearInterval(spawnInterval);
+    }
+    // Spawn faster at higher levels
+    const spawnRate = Math.max(500, 1500 - (level * 150));
+    spawnInterval = setInterval(spawnItem, spawnRate);
+}
+
+// Start game
+function startGame() {
+    score = 0;
+    lives = 3;
+    level = 1;
+    gameRunning = true;
+    items = [];
+    
+    scoreDisplay.textContent = score;
+    livesDisplay.textContent = '❤️❤️❤️';
+    levelDisplay.textContent = level;
+    
+    // Clear any existing items
+    document.querySelectorAll('.falling-item').forEach(item => item.remove());
+    
+    startScreen.classList.add('hidden');
+    gameOverScreen.classList.add('hidden');
+    
+    // Start spawning
+    spawnInterval = setInterval(spawnItem, 1500);
+    
+    // Spawn first item immediately
+    spawnItem();
 }
 
 // End game
 function endGame() {
-    clearInterval(timerInterval);
+    gameRunning = false;
     
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    const timeStr = `${mins}m ${secs}s`;
+    if (spawnInterval) {
+        clearInterval(spawnInterval);
+        spawnInterval = null;
+    }
     
-    winStats.textContent = `You found all pairs in ${moves} moves and ${timeStr}!`;
-    winMessage.classList.remove('hidden');
+    finalScoreDisplay.textContent = `Score: ${score} | Level: ${level}`;
+    gameOverScreen.classList.remove('hidden');
 }
 
-// Restart button
-restartBtn.addEventListener('click', initGame);
+// Event listeners
+startBtn.addEventListener('click', startGame);
+restartBtn.addEventListener('click', startGame);
 
-// Start the game
-initGame();
+// Keyboard controls (arrow keys)
+document.addEventListener('keydown', (e) => {
+    if (!gameRunning) return;
+    
+    if (e.key === 'ArrowLeft') {
+        basketX = Math.max(10, basketX - 5);
+        updateBasketPosition();
+    } else if (e.key === 'ArrowRight') {
+        basketX = Math.min(90, basketX + 5);
+        updateBasketPosition();
+    }
+});

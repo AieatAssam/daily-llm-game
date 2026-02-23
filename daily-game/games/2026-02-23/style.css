@@ -6,191 +6,197 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(180deg, #0c0c3a 0%, #1a1a5e 50%, #2d1b4e 100%);
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
+    overflow: hidden;
 }
 
 .game-container {
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 20px;
-    padding: 30px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    max-width: 600px;
+    padding: 25px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    max-width: 500px;
     width: 100%;
 }
 
 h1 {
     text-align: center;
-    color: #333;
-    margin-bottom: 10px;
+    color: #ffd700;
+    margin-bottom: 8px;
     font-size: 2rem;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
 }
 
 .instructions {
     text-align: center;
-    color: #666;
+    color: #e0e0ff;
     margin-bottom: 20px;
     font-size: 0.95rem;
 }
 
 .stats {
     display: flex;
-    justify-content: center;
-    gap: 30px;
-    margin-bottom: 25px;
+    justify-content: space-around;
+    margin-bottom: 20px;
     flex-wrap: wrap;
+    gap: 15px;
 }
 
 .stat {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    padding: 10px 20px;
-    border-radius: 10px;
+    padding: 12px 25px;
+    border-radius: 12px;
     text-align: center;
+    min-width: 100px;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
 }
 
 .stat-label {
-    font-size: 0.85rem;
+    display: block;
+    font-size: 0.8rem;
     opacity: 0.9;
+    margin-bottom: 5px;
 }
 
 .stat span:last-child {
     display: block;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     font-weight: bold;
-    margin-top: 3px;
 }
 
-.game-board {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin-bottom: 25px;
-}
-
-.card {
-    aspect-ratio: 1;
-    perspective: 1000px;
-    cursor: pointer;
-}
-
-.card-inner {
+.game-area {
     position: relative;
     width: 100%;
-    height: 100%;
-    transition: transform 0.5s;
-    transform-style: preserve-3d;
+    height: 400px;
+    background: linear-gradient(180deg, #1a1a3e 0%, #2d1b4e 100%);
+    border-radius: 15px;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
-.card.flipped .card-inner {
-    transform: rotateY(180deg);
-}
-
-.card.matched .card-inner {
-    transform: rotateY(180deg);
-}
-
-.card-front,
-.card-back {
+.basket {
     position: absolute;
+    bottom: 10px;
+    font-size: 3rem;
+    cursor: pointer;
+    transition: transform 0.05s;
+    user-select: none;
+    z-index: 10;
+}
+
+.falling-item {
+    position: absolute;
+    font-size: 2rem;
+    user-select: none;
+    animation: fall linear forwards;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(450px);
+    }
+}
+
+.sparkle {
+    position: absolute;
+    pointer-events: none;
+    animation: sparkle 0.5s ease-out forwards;
+    font-size: 1.5rem;
+}
+
+@keyframes sparkle {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(2);
+    }
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 10px;
+    height: 400px;
+    background: rgba(0, 0, 0, 0.85);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 2.5rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.card-front {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    font-size: 2rem;
-}
-
-.card-front::after {
-    content: '❓';
-}
-
-.card-back {
-    background: white;
-    border: 3px solid #667eea;
-    transform: rotateY(180deg);
-}
-
-.card.matched .card-back {
-    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-    border-color: #11998e;
-}
-
-.restart-btn {
-    display: block;
-    width: 100%;
-    padding: 15px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.restart-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-}
-
-.win-message {
-    margin-top: 20px;
-    padding: 20px;
-    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
     border-radius: 15px;
-    text-align: center;
+    z-index: 100;
     color: white;
-    animation: slideIn 0.5s ease;
+    text-align: center;
+    padding: 30px;
 }
 
-.win-message h2 {
-    margin-bottom: 10px;
-}
-
-.win-message.hidden {
+.overlay.hidden {
     display: none;
 }
 
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.overlay h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: #ffd700;
+}
+
+.overlay p {
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    line-height: 1.6;
+    color: #e0e0ff;
+}
+
+.action-btn {
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%);
+    color: #1a1a3e;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
+}
+
+.action-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 30px rgba(255, 215, 0, 0.6);
+}
+
+.controls-hint {
+    text-align: center;
+    margin-top: 15px;
+    color: #8888aa;
+    font-size: 0.85rem;
 }
 
 @media (max-width: 500px) {
-    .game-board {
-        gap: 8px;
+    .game-area {
+        height: 350px;
     }
     
-    .card-front,
-    .card-back {
-        font-size: 2rem;
+    .basket {
+        font-size: 2.5rem;
     }
     
-    .stats {
-        gap: 15px;
+    .falling-item {
+        font-size: 1.7rem;
     }
     
-    .stat {
-        padding: 8px 15px;
+    h1 {
+        font-size: 1.6rem;
     }
 }
