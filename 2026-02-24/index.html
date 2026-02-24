@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Dodge - Daily Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>🚀 Space Dodge</h1>
+        <p class="instructions">Dodging asteroids! Move to avoid falling space debris. Survive as long as you can!</p>
+        
+        <div class="stats">
+            <div class="stat">
+                <span class="stat-label">Score:</span>
+                <span id="score">0</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Health:</span>
+                <span id="health">❤️❤️❤️</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Time:</span>
+                <span id="time">0s</span>
+            </div>
+        </div>
+        
+        <div class="game-area" id="game-area">
+            <div class="player" id="player">🚀</div>
+        </div>
+        
+        <div id="start-screen" class="overlay">
+            <h2>Ready Pilot?</h2>
+            <p>🎮 Arrow keys or mouse to move<br>🪨 Dodge the asteroids!<br>⏱️ Survive longer = higher score</p>
+            <button id="start-btn" class="action-btn">🚀 Launch</button>
+        </div>
+        
+        <div id="game-over-screen" class="overlay hidden">
+            <h2>💥 Mission Failed!</h2>
+            <p id="final-stats">Score: 0 | Time: 0s</p>
+            <button id="restart-btn" class="action-btn">🔄 Retry Mission</button>
+        </div>
+        
+        <div class="controls-hint">
+            <p>🖱️ Mouse: Follow cursor | ⌨️ Arrow Keys: Move ship</p>
+        </div>
+    </div>
+    
+    <script src="game.js"></script>
+</body>
+</html>
