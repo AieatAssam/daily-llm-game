@@ -97,13 +97,7 @@ h1 {
     position: absolute;
     font-size: 2rem;
     user-select: none;
-    animation: fall linear forwards;
-}
-
-@keyframes fall {
-    to {
-        transform: translateY(450px) rotate(360deg);
-    }
+    transition: transform 0.1s;
 }
 
 .star {

@@ -19,6 +19,7 @@ let gameRunning = false;
 let gameTime = 0;
 let timerInterval = null;
 let spawnInterval = null;
+let gameLoopId = null;
 let asteroids = [];
 let playerX = 50;
 let playerY = 80;
@@ -83,7 +84,7 @@ document.addEventListener('keydown', (e) => {
     } else if (e.key === 'ArrowUp' || e.key === 'w') {
         playerY = Math.max(10, playerY - speed);
     } else if (e.key === 'ArrowDown' || e.key === 's') {
-        playerY = Math.min(90, playerY - speed);
+        playerY = Math.min(90, playerY + speed);
     }
     updatePlayerPosition();
 });
@@ -99,51 +100,30 @@ function spawnAsteroid() {
     asteroid.style.top = '-50px';
     
     // Speed increases with time
-    const baseSpeed = 1.5 + (gameTime / 30);
-    const speed = Math.min(4, baseSpeed + Math.random());
-    asteroid.style.animationDuration = `${speed}s`;
+    const baseSpeed = 2 + (gameTime / 20);
+    const speed = Math.min(5, baseSpeed);
+    asteroid.dataset.speed = speed;
+    asteroid.dataset.y = -50;
     
     gameArea.appendChild(asteroid);
     asteroids.push(asteroid);
-    
-    // Check collision after most of the fall
-    setTimeout(() => checkCollision(asteroid), speed * 1000 - 200);
-    
-    // Remove after animation
-    setTimeout(() => {
-        if (asteroid.parentNode) {
-            asteroid.remove();
-            asteroids = asteroids.filter(a => a !== asteroid);
-        }
-    }, speed * 1000);
 }
 
-// Check collision with player
+// Check collision between asteroid and player
 function checkCollision(asteroid) {
-    if (!gameRunning || !asteroid.parentNode) return;
+    if (!asteroid.parentNode) return false;
     
     const asteroidRect = asteroid.getBoundingClientRect();
     const playerRect = player.getBoundingClientRect();
     
-    // Shrink hitboxes slightly for fairness
-    const padding = 10;
+    // Hitbox padding for fairness
+    const padding = 15;
     const overlap = !(asteroidRect.right - padding < playerRect.left + padding ||
                      asteroidRect.left + padding > playerRect.right - padding ||
                      asteroidRect.bottom - padding < playerRect.top + padding ||
                      asteroidRect.top + padding > playerRect.bottom - padding);
     
-    if (overlap) {
-        health--;
-        updateHealthDisplay();
-        createExplosion(asteroidRect.left, asteroidRect.top);
-        
-        if (health <= 0) {
-            endGame();
-        }
-        
-        asteroid.remove();
-        asteroids = asteroids.filter(a => a !== asteroid);
-    }
+    return overlap;
 }
 
 // Create explosion effect
@@ -161,6 +141,48 @@ function createExplosion(x, y) {
 // Update health display
 function updateHealthDisplay() {
     healthDisplay.textContent = '❤️'.repeat(health);
+}
+
+// Game loop - runs every frame for smooth collision detection
+function gameLoop() {
+    if (!gameRunning) return;
+    
+    const gameAreaHeight = gameArea.offsetHeight;
+    
+    // Update each asteroid position
+    asteroids.forEach((asteroid, index) => {
+        if (!asteroid.parentNode) return;
+        
+        // Move asteroid down based on speed
+        let currentY = parseFloat(asteroid.dataset.y) || -50;
+        const speed = parseFloat(asteroid.dataset.speed) || 3;
+        currentY += speed * 2; // pixels per frame
+        asteroid.dataset.y = currentY;
+        asteroid.style.top = `${currentY}px`;
+        
+        // Check collision every frame
+        if (checkCollision(asteroid)) {
+            health--;
+            updateHealthDisplay();
+            const rect = asteroid.getBoundingClientRect();
+            createExplosion(rect.left, rect.top);
+            asteroid.remove();
+            asteroids.splice(index, 1);
+            
+            if (health <= 0) {
+                endGame();
+            }
+            return;
+        }
+        
+        // Remove if off screen
+        if (currentY > gameAreaHeight) {
+            asteroid.remove();
+            asteroids.splice(index, 1);
+        }
+    });
+    
+    gameLoopId = requestAnimationFrame(gameLoop);
 }
 
 // Start game
@@ -190,15 +212,15 @@ function startGame() {
     timerInterval = setInterval(() => {
         gameTime++;
         timeDisplay.textContent = `${gameTime}s`;
-        score = gameTime * 10; // Score based on survival time
+        score = gameTime * 10;
         scoreDisplay.textContent = score;
     }, 1000);
     
     // Start spawning asteroids
-    spawnInterval = setInterval(spawnAsteroid, 800);
+    spawnInterval = setInterval(spawnAsteroid, 600);
     
-    // Spawn first asteroid immediately
-    spawnAsteroid();
+    // Start game loop for collision detection
+    gameLoop();
 }
 
 // End game
@@ -212,6 +234,10 @@ function endGame() {
     if (spawnInterval) {
         clearInterval(spawnInterval);
         spawnInterval = null;
+    }
+    if (gameLoopId) {
+        cancelAnimationFrame(gameLoopId);
+        gameLoopId = null;
     }
     
     finalStatsDisplay.textContent = `Score: ${score} | Survived: ${gameTime}s`;
