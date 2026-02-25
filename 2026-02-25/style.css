@@ -1,0 +1,228 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(180deg, #1a0a2e 0%, #16213e 50%, #0f3460 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.game-container {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    max-width: 500px;
+    width: 100%;
+}
+
+h1 {
+    text-align: center;
+    color: #00ff88;
+    margin-bottom: 8px;
+    font-size: 2rem;
+    text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+}
+
+.instructions {
+    text-align: center;
+    color: #a0c0ff;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.stat {
+    background: linear-gradient(135deg, #1a1a3e 0%, #2d1b4e 100%);
+    color: white;
+    padding: 12px 25px;
+    border-radius: 12px;
+    text-align: center;
+    min-width: 100px;
+    border: 1px solid rgba(0, 255, 136, 0.3);
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.75rem;
+    opacity: 0.8;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.stat span:last-child {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.game-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    border: 2px solid rgba(0, 255, 136, 0.3);
+}
+
+.hole {
+    aspect-ratio: 1;
+    background: linear-gradient(180deg, #2d1b4e 0%, #1a0a2e 100%);
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    border: 3px solid rgba(0, 255, 136, 0.2);
+    box-shadow: inset 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.mole {
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    bottom: -100%;
+    left: 10%;
+    font-size: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: bottom 0.15s ease-out;
+    user-select: none;
+}
+
+.hole.up .mole {
+    bottom: 10%;
+}
+
+.hole.hit .mole {
+    animation: hit 0.2s ease-out;
+}
+
+@keyframes hit {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+.hole.bomb-hit {
+    animation: shake 0.3s ease-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.score-popup {
+    position: absolute;
+    font-size: 1.5rem;
+    font-weight: bold;
+    pointer-events: none;
+    animation: floatUp 0.8s ease-out forwards;
+    z-index: 100;
+}
+
+@keyframes floatUp {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    z-index: 100;
+    color: white;
+    text-align: center;
+    padding: 30px;
+}
+
+.overlay.hidden {
+    display: none;
+}
+
+.overlay h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: #00ff88;
+}
+
+.overlay p {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    line-height: 1.8;
+    color: #c0e0ff;
+}
+
+.action-btn {
+    margin-top: 20px;
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+    color: #000;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(0, 255, 136, 0.4);
+}
+
+.action-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 30px rgba(0, 255, 136, 0.6);
+}
+
+.controls-hint {
+    text-align: center;
+    margin-top: 15px;
+    color: #6688aa;
+    font-size: 0.8rem;
+}
+
+@media (max-width: 500px) {
+    .game-grid {
+        gap: 10px;
+        padding: 15px;
+    }
+    
+    .mole {
+        font-size: 2.5rem;
+    }
+    
+    h1 {
+        font-size: 1.6rem;
+    }
+}

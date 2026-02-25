@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alien Whack - Daily Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>👽 Alien Whack</h1>
+        <p class="instructions">Whack the aliens before they disappear! Don't hit the bombs! 🔨</p>
+        
+        <div class="stats">
+            <div class="stat">
+                <span class="stat-label">Score:</span>
+                <span id="score">0</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Time:</span>
+                <span id="time">30</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Missed:</span>
+                <span id="missed">0</span>
+            </div>
+        </div>
+        
+        <div class="game-grid" id="game-grid">
+            <!-- 9 holes for aliens to pop up -->
+            <div class="hole" data-index="0"><div class="mole"></div></div>
+            <div class="hole" data-index="1"><div class="mole"></div></div>
+            <div class="hole" data-index="2"><div class="mole"></div></div>
+            <div class="hole" data-index="3"><div class="mole"></div></div>
+            <div class="hole" data-index="4"><div class="mole"></div></div>
+            <div class="hole" data-index="5"><div class="mole"></div></div>
+            <div class="hole" data-index="6"><div class="mole"></div></div>
+            <div class="hole" data-index="7"><div class="mole"></div></div>
+            <div class="hole" data-index="8"><div class="mole"></div></div>
+        </div>
+        
+        <div id="start-screen" class="overlay">
+            <h2>Ready to Whack?</h2>
+            <p>👽 Click aliens for +10 points<br>💣 Avoid bombs or lose 5 points!<br>⏱️ 30 seconds to get high score!</p>
+            <button id="start-btn" class="action-btn">🔨 Start Game</button>
+        </div>
+        
+        <div id="game-over-screen" class="overlay hidden">
+            <h2>🎮 Game Over!</h2>
+            <p id="final-score">Score: 0</p>
+            <p id="high-score">High Score: 0</p>
+            <button id="restart-btn" class="action-btn">🔄 Play Again</button>
+        </div>
+        
+        <div class="controls-hint">
+            <p>🖱️ Click or tap the aliens as fast as you can!</p>
+        </div>
+    </div>
+    
+    <script src="game.js"></script>
+</body>
+</html>
