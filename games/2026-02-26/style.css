@@ -1,0 +1,110 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+
+.game-container {
+    text-align: center;
+    padding: 2rem;
+    max-width: 500px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.instructions {
+    color: #a0a0a0;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.stat {
+    background: rgba(255,255,255,0.1);
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    min-width: 100px;
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.8rem;
+    color: #a0a0a0;
+    margin-bottom: 0.25rem;
+}
+
+.stat-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #4ecca3;
+}
+
+.color-display {
+    background: rgba(255,255,255,0.05);
+    border-radius: 20px;
+    padding: 3rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.color-box {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin: 0 auto 1.5rem;
+    background: #333;
+    transition: background-color 0.1s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.key-hint {
+    font-size: 1.2rem;
+    color: #a0a0a0;
+    padding: 0.5rem 1rem;
+    background: rgba(255,255,255,0.1);
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.message {
+    min-height: 1.5rem;
+    font-size: 1.1rem;
+    color: #4ecca3;
+    font-weight: bold;
+}
+
+.color-red { background: #e74c3c !important; }
+.color-green { background: #2ecc71 !important; }
+.color-blue { background: #3498db !important; }
+.color-yellow { background: #f1c40f !important; }
+
+@keyframes flash {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.flash {
+    animation: flash 0.2s ease;
+}

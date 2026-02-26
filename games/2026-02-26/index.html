@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Match Reflex</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>🎨 Color Match Reflex</h1>
+        <p class="instructions">Press the matching key (R, G, B, Y) as fast as you can when the color appears!</p>
+        
+        <div class="stats">
+            <div class="stat">
+                <span class="stat-label">Score</span>
+                <span class="stat-value" id="score">0</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Best</span>
+                <span class="stat-value" id="best">0</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Avg Time</span>
+                <span class="stat-value" id="avg-time">--</span>
+            </div>
+        </div>
+        
+        <div class="color-display" id="color-display">
+            <div class="color-box" id="color-box"></div>
+            <div class="key-hint" id="key-hint">Press SPACE to start</div>
+        </div>
+        
+        <div class="message" id="message"></div>
+    </div>
+    
+    <script src="game.js"></script>
+</body>
+</html>
