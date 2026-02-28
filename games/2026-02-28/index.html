@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Match Challenge</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>🧠 Memory Match Challenge</h1>
+        <p class="instructions">Find all matching pairs by flipping cards. Match the emojis before running out of moves!</p>
+        
+        <div class="stats">
+            <div class="stat">
+                <span class="stat-label">Moves</span>
+                <span class="stat-value" id="moves">0</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Pairs</span>
+                <span class="stat-value" id="pairs">0/8</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Best</span>
+                <span class="stat-value" id="best">--</span>
+            </div>
+        </div>
+        
+        <div class="game-board" id="game-board">
+            <!-- Cards will be generated here -->
+        </div>
+        
+        <div class="message" id="message"></div>
+        
+        <button class="restart-btn" id="restart-btn">🔄 New Game</button>
+    </div>
+    
+    <script src="game.js"></script>
+</body>
+</html>
