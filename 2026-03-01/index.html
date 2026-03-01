@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Catch the Stars - Daily Microgame</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="game-container">
+    <h1>🌟 Catch the Stars</h1>
+    <p class="instructions">Move your basket left and right to catch falling stars! Avoid the bombs! Use arrow keys or touch the sides.</p>
+    
+    <div class="stats">
+      <div class="stat">Score: <span id="score">0</span></div>
+      <div class="stat">Lives: <span id="lives">3</span></div>
+      <div class="stat">Time: <span id="timer">60</span>s</div>
+    </div>
+    
+    <div id="game-area">
+      <div id="basket"></div>
+    </div>
+    
+    <div id="game-over" class="hidden">
+      <h2>Game Over!</h2>
+      <p>Final Score: <span id="final-score">0</span></p>
+      <button id="restart-btn">Play Again</button>
+    </div>
+    
+    <div id="start-screen">
+      <h2>Ready to Catch Stars?</h2>
+      <p>Catch stars for points, avoid bombs!</p>
+      <button id="start-btn">Start Game</button>
+    </div>
+  </div>
+  
+  <script src="game.js"></script>
+</body>
+</html>
