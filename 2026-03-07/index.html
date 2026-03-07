@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Type Rush - Daily Game 2026-03-07</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <header>
+            <h1>⌨️ Type Rush</h1>
+            <p class="instructions">Type the falling letters before they hit the bottom! Speed increases as you score.</p>
+        </header>
+        
+        <div class="stats">
+            <div class="stat">
+                <span class="stat-label">Score</span>
+                <span class="stat-value" id="score">0</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Lives</span>
+                <span class="stat-value" id="lives">❤️❤️❤️</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Level</span>
+                <span class="stat-value" id="level">1</span>
+            </div>
+        </div>
+        
+        <div class="game-area" id="game-area">
+            <div class="target-letter" id="target-letter"></div>
+        </div>
+        
+        <div class="controls">
+            <button id="start-btn" class="btn primary">Start Game</button>
+        </div>
+        
+        <div class="game-over" id="game-over" style="display: none;">
+            <h2>Game Over!</h2>
+            <p>Final Score: <span id="final-score">0</span></p>
+            <p>Level Reached: <span id="final-level">1</span></p>
+            <button id="restart-btn" class="btn primary">Play Again</button>
+        </div>
+    </div>
+    
+    <script src="game.js"></script>
+</body>
+</html>
