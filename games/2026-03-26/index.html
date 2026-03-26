@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Memory - Daily Game 2026-03-26</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <header>
+            <h1>🔢 Number Memory</h1>
+            <p class="instructions">Remember the sequence of numbers and type them back! Each round adds one more digit.</p>
+        </header>
+        
+        <div class="stats">
+            <div class="stat">
+                <span class="stat-label">Round</span>
+                <span class="stat-value" id="round">1</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Score</span>
+                <span class="stat-value" id="score">0</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Best</span>
+                <span class="stat-value" id="best">0</span>
+            </div>
+        </div>
+        
+        <div class="game-area">
+            <div class="sequence-display" id="sequence-display">
+                <p class="hint">Press Start to begin!</p>
+            </div>
+        </div>
+        
+        <div class="input-area">
+            <input type="text" id="player-input" class="number-input" placeholder="Enter numbers here..." maxlength="20" disabled>
+        </div>
+        
+        <div class="controls">
+            <button id="start-btn" class="btn primary">Start Game</button>
+            <button id="submit-btn" class="btn secondary" disabled>Submit</button>
+        </div>
+        
+        <div class="feedback" id="feedback"></div>
+    </div>
+    
+    <script src="game.js"></script>
+</body>
+</html>
